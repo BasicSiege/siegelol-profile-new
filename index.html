@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta id="meta-name" property="og:title" content="siege">
+  <link rel="icon" href="ggg.gif" type="image/gif">
+  <meta id="meta-description" property="og:description" content="Sieges vouches.">
+  <title>siege.lol</title>
+  <!--<script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool"></script>-->
+  <link rel="icon" href="img/output.gif">
+  <meta name="theme-color" content="#080808">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://kit.fontawesome.com/0e15170c4f.js" crossorigin="anonymous"></script>
+  <link href="main.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+  <div class="monitor">
+    <div id="numbersGrid"></div>
+    <div class="profile">
+      <img class="pfp" src="img/ggg.gif" alt="Profile Picture">
+      <h1 class="username"><b>Siege</b></h1>
+      <a href="https://discord.gg/sodio">
+        <img class="callsign" src="img/output.gif" alt="Sodium">
+      </a>
+      <div class="socials">
+        <a href="https://discord.com/users/1216226450739429377" target="_blank"><i class="fab fa-discord"></i></a>
+        <a href="https://paypal.me/siegelolz" target="_blank"><i class="fa-brands fa-paypal"></i></a>
+        <a href="https://open.spotify.com/user/31mrclvblzfw2dwxom3cbzwffcqm" target="_blank"><i class="fa-brands fa-spotify"></i></a>
+        <a href="https://t.me/siegelol" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+        <a href="https://live.blockcypher.com/ltc/address/LRKmUitjChTxU6NmQGhdrNJCmx326A5H64/" target="_blank"><i class="fa-solid fa-litecoin-sign"></i></a>
+        <a href="https://live.blockcypher.com/btc/address/bc1ql05486punqf6stvwksm03j8lxqmg8a3exz7w0n/" target="_blank"><i class="fa-brands fa-btc"></i></a>
+        <a href="https://live.blockcypher.com/eth/address/6acb12ad7ed0fdf33f1ef34b844bcfa55e9a9efd/" target="_blank"><i class="fa-brands fa-ethereum"></i></a>
+      </div>
+      <h3 class="glow-text">
+        siege wuz here lolz 
+      </h3>
+      
+      <!-- View counter (simulated with localStorage) -->
+      <div id="viewCounter" class="view-counter">
+        <i class="fa fa-eye"></i> <span id="viewCountDisplay">loading...</span>
+      </div>
+      <br>
+      
+      <img src="https://discord.c99.nl/widget/theme-4/1216226450739429377.png" style="width: 300px;">
+      <br><br><br>
+      <!--<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/4t9R5rbtovdvya28uMODDz?utm_source=generator" width="350" height="100" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>-->
+      
+      <h1 id="counter">0 vouches</h1>
+      <div class="gallery" id="gallery"></div>
+      <div id="lightbox" class="lightbox" onclick="document.getElementById('lightbox').style.display='none'">
+        <img id="lightboxImage" src="" alt="">
+        <div class="message" id="lightboxMessage">Click anywhere to close</div>
+      </div>
+      
+      <script>
+        if (!localStorage.getItem('pageViews')) {
+          localStorage.setItem('pageViews', '0');
+        }
+        let views = parseInt(localStorage.getItem('pageViews'));
+        views++;
+        localStorage.setItem('pageViews', views);
+        document.getElementById('viewCountDisplay').textContent = views;
+      </script>
+
+      <script>
+        let count = 0;
+        const target = 222;
+        const counterElement = document.getElementById('counter');
+
+        const countUp = () => {
+            if (count < target) {
+                count++;
+                counterElement.textContent = `${count}+ vouches`;
+                setTimeout(countUp, 30);
+            } else {
+                counterElement.textContent = `${target}+ vouches`;
+            }
+        };
+
+        countUp();
+
+        const imageNames = [];
+        for (let i = 1; i <= 52; i++) {
+            imageNames.push(`image${i}.png`);
+        }
+
+        // Shuffle the array using Fisher-Yates (Knuth) shuffle algorithm
+        const shuffleArray = (array) => {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        };
+
+        const shuffledImageNames = shuffleArray(imageNames);
+
+        const gallery = document.getElementById('gallery');
+
+        shuffledImageNames.forEach(image => {
+            const imgElement = document.createElement('img');
+            imgElement.src = `images/${image}`;
+            imgElement.alt = image;
+            imgElement.onclick = () => {
+                document.getElementById('lightboxImage').src = imgElement.src;
+                document.getElementById('lightbox').style.display = 'flex';
+                const message = document.getElementById('lightboxMessage');
+                message.style.display = 'block';
+            };
+            gallery.appendChild(imgElement);
+        });
+
+        const lightbox = document.getElementById('lightbox');
+        lightbox.onmousemove = (event) => {
+            const message = document.getElementById('lightboxMessage');
+            message.style.left = `${event.clientX + 10}px`;
+            message.style.top = `${event.clientY + 10}px`;
+        };
+
+        const lightboxImage = document.getElementById('lightboxImage');
+        lightboxImage.onmouseover = () => {
+            document.getElementById('lightboxMessage').style.display = 'none';
+        };
+        lightboxImage.onmouseout = () => {
+            document.getElementById('lightboxMessage').style.display = 'block';
+        };
+    </script>
+    </div>
+  </div>
+    <script>
+      const cellSize = 55;
+      const threshold = 100;
+      const maxScale = 2.0;
+      const maxTranslation = 10;
+      const grid = document.getElementById('numbersGrid');
+      const gridItems = [];
+      function createGrid() {
+        grid.innerHTML = '';
+        gridItems.length = 0;
+        const columns = Math.floor(window.innerWidth / cellSize);
+        const rows = Math.floor(window.innerHeight / cellSize);
+        grid.style.gridTemplateColumns = `repeat(${columns}, ${cellSize}px)`;
+        grid.style.gridTemplateRows = `repeat(${rows}, ${cellSize}px)`;
+        for (let i = 0; i < rows * columns; i++) {
+          const cell = document.createElement('div');
+          cell.classList.add('grid-item');
+          const amplitudeX = 2 + Math.random() * 4;
+          const amplitudeY = 2 + Math.random() * 4;
+          const speedX = 0.5 + Math.random() * 1.5;
+          const speedY = 0.5 + Math.random() * 1.5;
+          const phaseX = Math.random() * 2 * Math.PI;
+          const phaseY = Math.random() * 2 * Math.PI;
+          cell.dataset.amplitudeX = amplitudeX;
+          cell.dataset.amplitudeY = amplitudeY;
+          cell.dataset.speedX = speedX;
+          cell.dataset.speedY = speedY;
+          cell.dataset.phaseX = phaseX;
+          cell.dataset.phaseY = phaseY;
+          const inner = document.createElement('div');
+          inner.classList.add('inner-text');
+          inner.textContent = Math.floor(Math.random() * 10);
+          cell.appendChild(inner);
+          grid.appendChild(cell);
+          gridItems.push(cell);
+        }
+      }
+      function handleMouseMove(e) {
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        document.querySelectorAll('.grid-item').forEach(cell => {
+          const rect = cell.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const dx = centerX - mouseX;
+          const dy = centerY - mouseY;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          const inner = cell.querySelector('.inner-text');
+          if (distance < threshold) {
+            const factor = 1 - (distance / threshold);
+            const scale = 1 + factor * (maxScale - 1);
+            const translateX = (dx / distance) * maxTranslation * factor;
+            const translateY = (dy / distance) * maxTranslation * factor;
+            const rotateDeg = 1.5 * factor;
+            inner.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale}) rotate(${rotateDeg}deg)`;
+            inner.style.color = '#ccc';
+            inner.style.textShadow = `0 0 ${6 * factor}px #ccc`;
+          } else {
+            inner.style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
+            inner.style.color = 'rgba(170, 170, 170, 0.5)';
+            inner.style.textShadow = 'none';
+          }
+        });
+      }
+      function handleMouseLeave() {
+        document.querySelectorAll('.inner-text').forEach(inner => {
+          inner.style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
+          inner.style.color = 'rgba(170, 170, 170, 0.5)';
+          inner.style.textShadow = 'none';
+        });
+      }
+      function animateDrift(time) {
+        const t = time / 1000;
+        gridItems.forEach(cell => {
+          const amplitudeX = parseFloat(cell.dataset.amplitudeX);
+          const amplitudeY = parseFloat(cell.dataset.amplitudeY);
+          const speedX = parseFloat(cell.dataset.speedX);
+          const speedY = parseFloat(cell.dataset.speedY);
+          const phaseX = parseFloat(cell.dataset.phaseX);
+          const phaseY = parseFloat(cell.dataset.phaseY);
+          const offsetX = amplitudeX * Math.sin(t * speedX + phaseX);
+          const offsetY = amplitudeY * Math.cos(t * speedY + phaseY);
+          cell.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+        });
+        requestAnimationFrame(animateDrift);
+      }
+      createGrid();
+      requestAnimationFrame(animateDrift);
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseleave', handleMouseLeave);
+    </script>
+    
+    <script src="js/disabledev.js"></script>
+    <script src="js/disable.js"></script>
+    <script src="js/ffont.js"></script>
+    <script src="js/title.js"></script>
+  </div>
+  <div id="volumeControl">
+    <i id="volumeIcon" class="fa fa-volume-up"></i>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value=".25">
+  </div>
+
+  <script>
+  (function() {
+    // Create and play the audio if it hasn't been declared already in this scope
+    let audio = new Audio('theme.mp3');
+    audio.play().catch(err => console.log('Autoplay failed:', err));
+
+    // Get references to the volume slider and icon
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumeIcon = document.getElementById('volumeIcon');
+    
+    // Store the last non-zero volume level
+    let previousVolume = volumeSlider.value;
+
+    // Update slider background based on the current volume value
+    function updateSliderBackground() {
+      const percentage = volumeSlider.value * 100;
+      volumeSlider.style.background = `linear-gradient(to right, red 0%, red ${percentage}%, #ccc ${percentage}%, #ccc 100%)`;
+    }
+
+    // Update audio volume and icon when the slider changes
+    volumeSlider.addEventListener('input', () => {
+      const volume = parseFloat(volumeSlider.value);
+      audio.volume = volume;
+      updateSliderBackground();
+
+      // Update icon based on whether volume is zero or above
+      if (volume == 0) {
+        volumeIcon.className = 'fa fa-volume-mute';
+      } else {
+        volumeIcon.className = 'fa fa-volume-up';
+        previousVolume = volume; // save last non-zero volume
+      }
+    });
+
+    // Toggle mute/unmute when clicking on the volume icon
+    volumeIcon.addEventListener('click', () => {
+      if (audio.volume > 0) {
+        // Mute the audio and update slider/icon
+        previousVolume = volumeSlider.value;
+        audio.volume = 0;
+        volumeSlider.value = 0;
+        updateSliderBackground();
+        volumeIcon.className = 'fa fa-volume-mute';
+      } else {
+        // Unmute and restore volume to previous level or 1 if previousVolume is 0
+        const restoredVolume = previousVolume > 0 ? previousVolume : 1;
+        audio.volume = restoredVolume;
+        volumeSlider.value = restoredVolume;
+        updateSliderBackground();
+        volumeIcon.className = 'fa fa-volume-up';
+      }
+    });
+
+    // Initialize the slider background on page load
+    updateSliderBackground();
+  })();
+  </script>
+
+</body>
+</html>

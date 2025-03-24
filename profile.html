@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta id="meta-name" property="og:title" content="siege">
+    <link rel="icon" href="ggg.gif" type="image/gif">
+    <meta id="meta-description" property="og:description" content="Sieges vouches.">
+    <title>siege.lol</title>
+    <link rel="icon" href="ggg.gif">
+    <meta name="theme-color" content="#080808">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/0e15170c4f.js" crossorigin="anonymous"></script>
+    <link href="main.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="profile">
+        <img class="pfp" src="img/ggg.gif" alt="Profile Picture">
+        <div class="username"><b>Siege</b></div>
+        
+        <a href="https://discord.gg/">
+            <img class="callsign" src="img/output.gif" alt="Sodium">
+        </a>
+        <div class="socials">
+            <a href="https://discord.com/users/1216226450739429377" target="_blank"><i class="fab fa-discord"></i></a>
+            <a href="https://paypal.me/siegelolz" target="_blank"><i class="fa-brands fa-paypal"></i></a>
+            <a href="https://open.spotify.com/user/31mrclvblzfw2dwxom3cbzwffcqm" target="_blank"><i class="fa-brands fa-spotify"></i></a>
+            <a href="https://t.me/siegelol" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+            <a href="https://live.blockcypher.com/ltc/address/LRKmUitjChTxU6NmQGhdrNJCmx326A5H64/" target="_blank"><i class="fa-solid fa-litecoin-sign"></i></a>
+            <a href="https://live.blockcypher.com/btc/address/bc1ql05486punqf6stvwksm03j8lxqmg8a3exz7w0n/" target="_blank"><i class="fa-brands fa-btc"></i></a>
+            <a href="https://live.blockcypher.com/eth/address/6acb12ad7ed0fdf33f1ef34b844bcfa55e9a9efd/" target="_blank"><i class="fa-brands fa-ethereum"></i></a>
+        </div>
+        <h5>"It's easier to ask for forgiveness than permission" - Grace Hopper</h5>
+        <style>
+            .glow-text {
+              color: red;
+              font-weight: bold;
+              
+              /* Glow animation */
+              animation: glow 1s ease-in-out infinite alternate;
+            }
+            
+            /* Keyframes for glowing in & out */
+            @keyframes glow {
+              0% {
+                text-shadow: 0 0 10px red;
+              }
+              100% {
+                text-shadow: 0 0 20px red;
+              }
+            }
+        </style>
+        <h5 class="glow-text">
+          YOU WILL BE REDIRECTED IN 10 SECONDS TO VIEW AN IMPORTANT MESSAGE
+        </h5>
+        <br><br>
+        <img src="https://discord.c99.nl/widget/theme-4/1216226450739429377.png" style="width: 300px;">
+        <br><br><br>
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/4t9R5rbtovdvya28uMODDz?utm_source=generator" width="350" height="100" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </iframe>
+
+    <h1 id="counter">0 vouches</h1>
+
+    <div class="gallery" id="gallery"></div>
+
+    <div id="lightbox" class="lightbox" onclick="document.getElementById('lightbox').style.display='none'">
+        <img id="lightboxImage" src="" alt="">
+        <div class="message" id="lightboxMessage">Click anywhere to close</div>
+    </div>
+
+
+    
+    <script>
+        let count = 0;
+        const target = 222;
+        const counterElement = document.getElementById('counter');
+
+        const countUp = () => {
+            if (count < target) {
+                count++;
+                counterElement.textContent = `${count}+ vouches`;
+                setTimeout(countUp, 30);
+            } else {
+                counterElement.textContent = `${target}+ vouches`;
+            }
+        };
+
+        countUp();
+
+        const imageNames = [];
+        for (let i = 1; i <= 46; i++) {
+            imageNames.push(`image${i}.png`);
+        }
+
+        // Shuffle the array using Fisher-Yates (Knuth) shuffle algorithm
+        const shuffleArray = (array) => {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        };
+
+        const shuffledImageNames = shuffleArray(imageNames);
+
+        const gallery = document.getElementById('gallery');
+
+        shuffledImageNames.forEach(image => {
+            const imgElement = document.createElement('img');
+            imgElement.src = `img/${image}`;
+            imgElement.alt = image;
+            imgElement.onclick = () => {
+                document.getElementById('lightboxImage').src = imgElement.src;
+                document.getElementById('lightbox').style.display = 'flex';
+                const message = document.getElementById('lightboxMessage');
+                message.style.display = 'block';
+            };
+            gallery.appendChild(imgElement);
+        });
+
+        const lightbox = document.getElementById('lightbox');
+        lightbox.onmousemove = (event) => {
+            const message = document.getElementById('lightboxMessage');
+            message.style.left = `${event.clientX + 10}px`;
+            message.style.top = `${event.clientY + 10}px`;
+        };
+
+        const lightboxImage = document.getElementById('lightboxImage');
+        lightboxImage.onmouseover = () => {
+            document.getElementById('lightboxMessage').style.display = 'none';
+        };
+        lightboxImage.onmouseout = () => {
+            document.getElementById('lightboxMessage').style.display = 'block';
+        };
+    </script>
+    <script src="js/disabledev.js"></script>
+    <script src="js/disable.js"></script>
+    <script src="js/ffont.js"></script>
+    <script src="js/title.js"></script>
+</div>  
+
+</body>
+</html>

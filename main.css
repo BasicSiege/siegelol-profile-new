@@ -1,0 +1,301 @@
+/* Fullscreen Setup */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    overflow: hidden;
+    user-select: none;
+}
+
+/* Main Container + CRT Scanlines */
+.monitor {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    font-family: 'Press Start 2P', monospace;
+    color: #aaa;
+}
+.monitor::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.1) 0px,
+        rgba(255, 255, 255, 0.1) 1px,
+        transparent 1px,
+        transparent 4px
+    );
+    z-index: 1;
+}
+
+/* Fullscreen Grid Layout */
+#numbersGrid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Grid Item Styling */
+.grid-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inner-text {
+    font-size: 1.4rem;
+    color: rgba(170, 170, 170, 0.5);
+    transition: transform 0.15s ease-out, color 0.15s ease-out, text-shadow 0.15s ease-out;
+}
+
+/* General Body Styling */
+body {
+    font-family: 'Courier Prime', Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+}
+
+@font-face {
+    font-family: 'Courier Prime';
+    src: url('fonts/CourierPrime-Regular.woff2') format('woff2'),
+         url('fonts/CourierPrime-Regular.woff') format('woff');
+}
+
+/* Header and Profile Styles */
+
+
+h1 {
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.profile {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    margin-top: 50px;
+}
+
+.pfp {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 5px #000000;
+}
+
+.profile-name, .callsign {
+    width: 50px;
+    height: 50px;
+}
+
+/* Content Section */
+.content {
+    position: fixed;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #f1f1f1;
+    width: 100%;
+    padding: 20px;
+}
+
+/* Gallery */
+.gallery {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #111213;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    max-height: 45vh;
+}
+
+.gallery img {
+    width: 100%;
+    height: auto;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.gallery img:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+}
+
+/* Lightbox */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+}
+
+#lightboxMessage {
+  position: absolute;
+  /* Other styling properties */
+}
+
+/* Button Styles */
+.button {
+    padding: 16px 30px;
+    margin: 10px 0;
+    background-color: #ce1717;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 38px;
+}
+
+.button:hover {
+    background-color: #b01212;
+}
+
+/* Social Links */
+.socials a {
+    color: white;
+    margin: 0 5px;
+    transition: color 0.4s ease-in-out;
+    font-size: 28px;
+}
+
+.socials a:hover {
+    color: #ce1717;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #141618;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ce1717;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b01212;
+}
+
+/* Profile Card */
+.card {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    width: 150px;
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.1);
+}
+
+/* Background Particles */
+canvas {
+    display: block;
+}
+
+.glow-text {
+    color: red;
+    font-weight: bold;
+    
+    /* Glow animation */
+    animation: glow 1s ease-in-out infinite alternate;
+  }
+  
+  /* Keyframes for glowing in & out */
+  @keyframes glow {
+    0% {
+      text-shadow: 0 0 10px red;
+    }
+    100% {
+      text-shadow: 0 0 20px red;
+    }
+  }
+
+  #volumeControl {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  #volumeControl i {
+    color: white;
+    font-size: 24px;
+    margin-right: 8px;
+  }
+  #volumeSlider {
+    width: 100px;
+    appearance: none;
+    -webkit-appearance: none;
+    background: red;
+    height: 5px;
+    border-radius: 5px;
+    outline: none;
+  }
+  /* Webkit thumb styling */
+  #volumeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+  }
+  /* Firefox thumb styling */
+  #volumeSlider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+  }

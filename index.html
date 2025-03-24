@@ -66,7 +66,7 @@
 
       <script>
         let count = 0;
-        const target = 222;
+        const target = 245;
         const counterElement = document.getElementById('counter');
 
         const countUp = () => {
@@ -288,6 +288,63 @@
     updateSliderBackground();
   })();
   </script>
+
+  <script>
+    // Audio visualizer for the grid numbers' glow effect
+    (function() {
+      // Create (or re-use) an audio context
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  
+      // Assume your audio element (theme.mp3) is already playing;
+      // if not, make sure it starts playing so the analyser has data.
+      // In our case the audio element was created earlier in the volume slider script.
+      // For this example, we assume it is available as window.audioElementForViz.
+      // If not, you can attach it there. For instance, in your volume control code:
+      //   window.audioElementForViz = audio;
+      const audioElement = window.audioElementForViz || (function(){
+        // fallback: create a new audio element if needed (this might duplicate audio)
+        const a = new Audio('theme.mp3');
+        a.loop = true;
+        a.play().catch(err => console.log('Autoplay failed:', err));
+        return a;
+      })();
+      
+      // Create an analyser node
+      const analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 256;
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+  
+      // Connect the audio element to the analyser and then to the destination
+      const source = audioCtx.createMediaElementSource(audioElement);
+      source.connect(analyser);
+      analyser.connect(audioCtx.destination);
+  
+      // Animate the glow effect based on audio frequency data
+      function animateAudioVisualizer() {
+        analyser.getByteFrequencyData(dataArray);
+        // Calculate average amplitude from the frequency data
+        let sum = 0;
+        for (let i = 0; i < bufferLength; i++) {
+          sum += dataArray[i];
+        }
+        const avg = sum / bufferLength;
+        // Map the average to a glow intensity (you can adjust the multiplier)
+        const glowIntensity = (avg / 255) * 10; // glow size in pixels
+  
+        // Update the style for each grid number to add a dynamic text shadow glow
+        document.querySelectorAll('.grid-item .inner-text').forEach(inner => {
+          inner.style.textShadow = `0 0 ${glowIntensity}px #ccc`;
+          // Optionally, you can also change the text color or other properties
+          inner.style.color = '#ccc';
+        });
+  
+        requestAnimationFrame(animateAudioVisualizer);
+      }
+      animateAudioVisualizer();
+    })();
+  </script>
+  
 
 </body>
 </html>

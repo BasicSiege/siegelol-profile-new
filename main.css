@@ -191,18 +191,18 @@ h1 {
 
 /* Social Links */
 .socials a {
-    color: white;
-    margin: 0 5px;
-    transition: color 0.4s ease-in-out;
-    font-size: 32px;
-    text-decoration: none;
-    border-bottom: none;
+    color: white;  /* Sets all social icons to white */
+    margin: 0 5px;  /* Adds 5px horizontal spacing between icons */
+    transition: color 0.4s ease-in-out;  /* Smooth color transition on hover */
+    font-size: 32px;  /* Sets icon size to 32 pixels */
+    text-decoration: none;  /* Removes underline */
+    border-bottom: none;  /* Ensures no bottom border */
 }
 
 .socials a:hover {
-    color: #ce1717;
-    text-decoration: none;
-    border-bottom: none;
+    color: #ce1717;  /* Changes icon color to a red shade on hover */
+    text-decoration: none;  /* Keeps no underline on hover */
+    border-bottom: none;  /* Keeps no bottom border on hover */
 }
 
 /* Scrollbar Styling */

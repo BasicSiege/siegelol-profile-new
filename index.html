@@ -125,7 +125,19 @@
             <i class="fa-brands fa-ethereum"></i>
           </a>
         </div>
-        <h3 class="glow-text">your outie is a programmer</h3>
+        <h3 class="glow-text" id="quote"></h3>
+    
+        <script>
+            const quotes = [
+                "Your outie is a programmer.",
+                "When is the next waffle party?",
+                "A handshake is available upon request.",
+                "So That's Unknown, Unknown, Delaware, Unknown, Unknown.",
+                "The Numbers Were Scary."
+            ];
+    
+            document.getElementById("quote").innerText = quotes[Math.floor(Math.random() * quotes.length)];
+        </script>
 
         <!-- View counter (simulated with localStorage) -->
         <div id="viewCounter" class="view-counter">

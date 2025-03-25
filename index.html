@@ -126,7 +126,7 @@
           </a>
         </div>
         <h3 class="glow-text" id="quote"></h3>
-    
+        
         <script>
             const quotes = [
                 "Your outie is a programmer.",
@@ -135,8 +135,18 @@
                 "So That's Unknown, Unknown, Delaware, Unknown, Unknown.",
                 "The Numbers Were Scary."
             ];
-    
-            document.getElementById("quote").innerText = quotes[Math.floor(Math.random() * quotes.length)];
+        
+            function updateQuote() {
+                const quoteElement = document.getElementById("quote");
+                const randomIndex = Math.floor(Math.random() * quotes.length);
+                quoteElement.innerText = quotes[randomIndex];
+            }
+        
+            // Initial call to display a quote
+            updateQuote();
+        
+            // Update quote every 60 seconds (60000 ms)
+            setInterval(updateQuote, 60000);
         </script>
 
         <!-- View counter (simulated with localStorage) -->

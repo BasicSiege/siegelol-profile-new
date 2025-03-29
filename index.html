@@ -25,27 +25,29 @@
     <link href="main.css" rel="stylesheet" type="text/css" />
 
     <!-- AUDIO INITIALIZATION SCRIPT -->
-    <script>
-      // Checks for the existence of specific MP3 files and selects one at random.
-      function initializeAudioPlayer() {
-        const candidateFiles = ["theme.mp3", "sv.mp3", "lol.mp3", "classic.mp3", "piano.mp3"];
-        const checks = candidateFiles.map(file => {
-          return fetch(file, { method: "HEAD" })
-            .then(response => response.ok ? file : null)
-            .catch(() => null);
-        });
-        Promise.all(checks).then(results => {
-          const availableFiles = results.filter(file => file !== null);
-          if (availableFiles.length > 0) {
-            const randomIndex = Math.floor(Math.random() * availableFiles.length);
-            window.audioElementForViz.src = availableFiles[randomIndex];
-          } else {
-            console.log("No valid mp3 files found, defaulting to theme.mp3");
-            window.audioElementForViz.src = "theme.mp3";
-          }
-        });
-      }
-    </script>
+  <script>
+    // Checks for the existence of specific MP3 files and selects one at random.
+    function initializeAudioPlayer() {
+      const candidateFiles = ["theme.mp3", "sv.mp3", "lol.mp3", "classic.mp3", "piano.mp3"];
+      const checks = candidateFiles.map(file => {
+        return fetch(file, { method: "HEAD" })
+          .then(response => response.ok ? file : null)
+          .catch(() => null);
+      });
+      Promise.all(checks).then(results => {
+        const availableFiles = results.filter(file => file !== null);
+        if (availableFiles.length > 0) {
+          const randomIndex = Math.floor(Math.random() * availableFiles.length);
+          window.audioElementForViz.src = availableFiles[randomIndex];
+        } else {
+          console.log("No valid mp3 files found, defaulting to theme.mp3");
+          window.audioElementForViz.src = "theme.mp3";
+        }
+        // Disable looping for the audio element.
+        window.audioElementForViz.loop = false;
+      });
+    }
+  </script>
   </head>
   <body>
     <div

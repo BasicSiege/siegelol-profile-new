@@ -23,6 +23,29 @@
       crossorigin="anonymous"
     ></script>
     <link href="main.css" rel="stylesheet" type="text/css" />
+
+    <!-- AUDIO INITIALIZATION SCRIPT -->
+    <script>
+      // Checks for the existence of specific MP3 files and selects one at random.
+      function initializeAudioPlayer() {
+        const candidateFiles = ["theme.mp3", "sv.mp3", "lol.mp3", "classic.mp3", "piano.mp3"];
+        const checks = candidateFiles.map(file => {
+          return fetch(file, { method: "HEAD" })
+            .then(response => response.ok ? file : null)
+            .catch(() => null);
+        });
+        Promise.all(checks).then(results => {
+          const availableFiles = results.filter(file => file !== null);
+          if (availableFiles.length > 0) {
+            const randomIndex = Math.floor(Math.random() * availableFiles.length);
+            window.audioElementForViz.src = availableFiles[randomIndex];
+          } else {
+            console.log("No valid mp3 files found, defaulting to theme.mp3");
+            window.audioElementForViz.src = "theme.mp3";
+          }
+        });
+      }
+    </script>
   </head>
   <body>
     <div
@@ -47,12 +70,11 @@
           localStorage.setItem('clickViews', '0');
         }
 
-        const playOverlay = document.getElementById('playOverlay');
-
-        // Use the global audio element if available; otherwise, create it.
+        // Create the global audio element if it doesn’t already exist.
         if (!window.audioElementForViz) {
-          window.audioElementForViz = new Audio('theme.mp3');
+          window.audioElementForViz = new Audio();
           window.audioElementForViz.loop = true;
+          initializeAudioPlayer(); // Look for theme.mp3, sv.mp3 and lol.mp3
         }
         const audioElement = window.audioElementForViz;
 
@@ -74,7 +96,7 @@
           localStorage.setItem('clickViews', views);
           updateViewCounterDisplay();
 
-          // Optionally play audio
+          // Play the selected audio track
           audioElement.play().catch(err => console.log('Autoplay failed:', err));
 
           // Remove the overlay so it doesn't show again
@@ -152,7 +174,7 @@
             // Update quote every 60 seconds (60000 ms)
             setInterval(updateQuote, 5000);
         </script>
-
+        
         <!-- View counter (simulated with localStorage) -->
         <div id="viewCounter" class="view-counter">
           <i class="fa fa-eye"></i>
@@ -164,7 +186,6 @@
           style="width: 300px;"
         />
         <br /><br /><br />
-        <!--<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/4t9R5rbtovdvya28uMODDz?utm_source=generator" width="350" height="100" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>-->
         <h1 id="counter">0 vouches</h1>
         <div class="gallery" id="gallery"></div>
         <div
@@ -208,7 +229,7 @@
             imageNames.push(`image${i}.png`);
           }
 
-          // Shuffle the array using Fisher-Yates (Knuth) shuffle algorithm
+          // Shuffle the array using Fisher-Yates shuffle algorithm
           const shuffleArray = (array) => {
             for (let i = array.length - 1; i > 0; i--) {
               const j = Math.floor(Math.random() * (i + 1));
@@ -268,9 +289,7 @@
       // Update the custom top‑left block with date, Chicago time (12‑hour clock), and session time
       function updateCustomDisplay() {
         const now = new Date();
-        const formattedDate = formatDate(now); // e.g., "03/24/25"
-
-        // Chicago time in hh:mm:ss format (12‑hour clock)
+        const formattedDate = formatDate(now);
         const chicagoTime = now.toLocaleTimeString("en-US", {
           timeZone: "America/Chicago",
           hour: "2-digit",
@@ -279,7 +298,6 @@
           hour12: true
         });
 
-        // Calculate elapsed session time as hh:mm:ss
         const elapsedSeconds = Math.floor((Date.now() - sessionStartTime) / 1000);
         const hours = Math.floor(elapsedSeconds / 3600);
         const minutes = Math.floor((elapsedSeconds % 3600) / 60);
@@ -289,11 +307,8 @@
           `${minutes.toString().padStart(2, '0')}:` +
           `${seconds.toString().padStart(2, '0')}`;
 
-        // Prepare an array for the three rows
         const customRows = [formattedDate, chicagoTime, sessionTime];
 
-        // Update the first 3 rows × 8 columns of cells with individual characters,
-        // applying white color and a glowing text effect.
         for (let row = 0; row < 3; row++) {
           const text = customRows[row];
           for (let col = 0; col < 8; col++) {
@@ -310,7 +325,6 @@
         }
       }
 
-      // Grid settings
       const cellSize = 55;
       const threshold = 100;
       const maxScale = 2.0;
@@ -330,14 +344,12 @@
           const cell = document.createElement('div');
           cell.classList.add('grid-item');
 
-          // Mark cell as custom if it's in the top left 3 rows and first 8 columns
           const row = Math.floor(i / gridColumns);
           const col = i % gridColumns;
           if (row < 3 && col < 8) {
             cell.dataset.custom = "true";
           }
 
-          // Random values for drift animation
           const amplitudeX = 2 + Math.random() * 4;
           const amplitudeY = 2 + Math.random() * 4;
           const speedX = 0.5 + Math.random() * 1.5;
@@ -351,10 +363,8 @@
           cell.dataset.phaseX = phaseX;
           cell.dataset.phaseY = phaseY;
 
-          // Create inner div for the number/character
           const inner = document.createElement('div');
           inner.classList.add('inner-text');
-          // For non-custom cells, fill with a random digit (0–9)
           inner.textContent = Math.floor(Math.random() * 10);
           cell.appendChild(inner);
           grid.appendChild(cell);
@@ -362,7 +372,6 @@
         }
       }
 
-      // Mouse interaction effects with adjustments for custom cells
       function handleMouseMove(e) {
         const mouseX = e.clientX;
         const mouseY = e.clientY;
@@ -383,7 +392,6 @@
             const rotateDeg = 1.5 * factor;
             inner.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale}) rotate(${rotateDeg}deg)`;
             if (cell.dataset.custom === "true") {
-              // Always maintain the glowing effect on custom cells
               inner.style.textShadow = '0 0 8px #fff';
             } else {
               inner.style.color = '#ccc';
@@ -430,13 +438,10 @@
         requestAnimationFrame(animateDrift);
       }
 
-      // Initialize the grid, start animations, and update custom display
       createGrid();
       requestAnimationFrame(animateDrift);
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseleave', handleMouseLeave);
-
-      // Update our custom display every second and immediately on load
       setInterval(updateCustomDisplay, 1000);
       updateCustomDisplay();
     </script>
@@ -457,57 +462,41 @@
     </div>
     <script>
       (function () {
-        // Use the global audio element if available; otherwise, create it.
-        let audio = window.audioElementForViz || new Audio('theme.mp3');
+        let audio = window.audioElementForViz || new Audio();
         if (!window.audioElementForViz) {
           audio.loop = true;
           window.audioElementForViz = audio;
+          initializeAudioPlayer();
         }
-
-        // Ensure the audio is playing
-        audio.play().catch((err) =>
-          console.log('Autoplay failed:', err)
-        );
-
-        // Get references to the volume slider and icon
         const volumeSlider = document.getElementById('volumeSlider');
         const volumeIcon = document.getElementById('volumeIcon');
-
-        // Store the last non-zero volume level
         let previousVolume = volumeSlider.value;
 
-        // Update slider background based on the current volume value
         function updateSliderBackground() {
           const percentage = volumeSlider.value * 100;
           volumeSlider.style.background = `linear-gradient(to right, red 0%, red ${percentage}%, #ccc ${percentage}%, #ccc 100%)`;
         }
 
-        // Update audio volume and icon when the slider changes
         volumeSlider.addEventListener('input', () => {
           const volume = parseFloat(volumeSlider.value);
           audio.volume = volume;
           updateSliderBackground();
-
-          // Update icon based on whether volume is zero or above
           if (volume == 0) {
             volumeIcon.className = 'fa fa-volume-mute';
           } else {
             volumeIcon.className = 'fa fa-volume-up';
-            previousVolume = volume; // save last non-zero volume
+            previousVolume = volume;
           }
         });
 
-        // Toggle mute/unmute when clicking on the volume icon
         volumeIcon.addEventListener('click', () => {
           if (audio.volume > 0) {
-            // Mute the audio and update slider/icon
             previousVolume = volumeSlider.value;
             audio.volume = 0;
             volumeSlider.value = 0;
             updateSliderBackground();
             volumeIcon.className = 'fa fa-volume-mute';
           } else {
-            // Unmute and restore volume to previous level or 1 if previousVolume is 0
             const restoredVolume = previousVolume > 0 ? previousVolume : 1;
             audio.volume = restoredVolume;
             volumeSlider.value = restoredVolume;
@@ -515,10 +504,64 @@
             volumeIcon.className = 'fa fa-volume-up';
           }
         });
-
-        // Initialize the slider background on page load
         updateSliderBackground();
       })();
+    </script>
+    <script>
+      let audio = window.audioElementForViz || new Audio();
+      if (!window.audioElementForViz) {
+        audio.loop = true;
+        window.audioElementForViz = audio;
+        initializeAudioPlayer();
+      }
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const analyser = audioContext.createAnalyser();
+      analyser.fftSize = 128;
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      const source = audioContext.createMediaElementSource(audio);
+      source.connect(analyser);
+      analyser.connect(audioContext.destination);
+
+      const rows = Math.floor(window.innerHeight / 55);
+      const columns = Math.floor(window.innerWidth / 55);
+      const bars = [];
+      for (let col = 0; col < columns; col++) {
+        let columnCells = [];
+        for (let row = rows - 1; row >= Math.max(0, rows - 10); row--) {
+          columnCells.push(gridItems[row * columns + col].querySelector('.inner-text'));
+        }
+        bars.push(columnCells);
+      }
+
+      function updateVisualizer() {
+        analyser.getByteFrequencyData(dataArray);
+        bars.forEach((columnCells, index) => {
+          const frequencyIndex = Math.floor((index / columns) * bufferLength);
+          let rawValue = dataArray[frequencyIndex];
+          let value = Math.floor((rawValue / 255) * columnCells.length) + (Math.random() > 0.7 ? 1 : 0);
+          value = Math.max(1, Math.min(columnCells.length, value));
+          columnCells.forEach((cell, i) => {
+            if (!cell) return;
+            if (i < value) {
+              const intensity = (1 - i / value) * 1;
+              cell.style.color = `rgba(255, 255, 255, ${intensity})`;
+              cell.style.textShadow = `0 0 ${intensity * 10}px rgba(255, 255, 255, 1)`;
+            } else {
+              cell.style.color = 'rgba(255, 255, 255, 0.2)';
+              cell.style.textShadow = 'none';
+            }
+          });
+        });
+        requestAnimationFrame(updateVisualizer);
+      }
+
+      document.addEventListener('click', () => {
+        audioContext.resume().then(() => {
+          audio.play().catch(err => console.log('Autoplay failed:', err));
+          updateVisualizer();
+        });
+      });
     </script>
   </body>
 </html>
